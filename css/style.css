@@ -1,0 +1,46 @@
+body {
+    background: radial-gradient(#248878, #05212e);
+    color: aliceblue;
+}
+.boxshadow {
+    box-shadow: 0px 0px 20px -2px #222222;
+    background: #ffffff;
+}
+.ori,
+.btn {
+    box-shadow: 0px 0px -2px 1px black;
+}
+.label {
+    box-shadow: 0px 1px 4px 0px black;
+}
+.good {
+    box-shadow: 1px 1px 5px 1px #04ff52;
+    background-image: url(https://67.media.tumblr.com/dde8727a876c06bc2d30f6c0560a53bd/tumblr_o8nxmkCQBg1te2817o1_500.gif);
+}
+.bad {
+    box-shadow: 0px 0px 10px 1px #ff0000;
+}
+img {
+    cursor: pointer;
+}
+@media only screen and (max-width: 768px) {
+    img {
+        width: 100px;
+        height: 100px;
+    }
+}
+.shua {
+    background: hsla(198, 32%, 40%, 0);
+    position: relative;
+    top: -15px;
+    margin: 0px;
+    padding: 0px;
+}
+#timer {
+    position: relative;
+    top: 30px
+}
+#time {
+    position: relative;
+    top: 30px;
+}
