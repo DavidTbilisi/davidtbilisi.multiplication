@@ -21,12 +21,6 @@ function ricxvebi() {
 
 function cvl(e) {
     // სურათების ინიციალიზება
-    var r2_1 = $("#1"),
-        r2_2 = $("#2"),
-        r2_3 = $("#3"),
-        r2_4 = $("#4"),
-        r2_5 = $("#5"),
-        r2_6 = $("#6");
     let row2 = [$("#1"),$("#2"),$("#3"),$("#4"),$("#5"),$("#6"),];
 
 
@@ -47,51 +41,70 @@ function cvl(e) {
         r1_l.text(moment().hour(0).minute(0).second(counter++).format('HH : mm : ss'));
     }, 1500)
 
+    function resetGoodBad() {
+        $("img").removeClass("bad");
+        $("img").removeClass("good");
+    }
+    function good() {
+        $(e.target).addClass("good");
+        g++;
+        r3_r.text(g);
 
-
+    }
+    function bad() {
+        $(e.target).addClass("bad");
+        b--;
+        r3_l.text(b);
+    }
 
 
     function gamravleba() {
-        $("img").removeClass("bad");
-        $("img").removeClass("good");
+        resetGoodBad();
 
         var masivi = ricxvebi();
         // console.log(masivi);
-        var mult_1 = masivi[0] * masivi[1],
-            mult_2 = masivi[2] * masivi[3],
-            mult_3 = masivi[4] * masivi[5],
-            mult_4 = masivi[6] * masivi[7],
-            mult_5 = masivi[8] * masivi[9],
-            mult_6 = masivi[10] * masivi[11];
+        let imagesCalc = [[],[]];
+        let counter = 0;
+        masivi.forEach(function (value,index) {
+            // debugger;
 
-        // ფუნცქციის სწორი მუშაობის მტკიცებულება
-        //        console.log(masivi[0] + " X " + masivi[1] + " = " + mult_1 + " 1");
-        //        console.log(masivi[2] + " X " + masivi[3] + " = " + mult_2 + " 2");
-        //        console.log(masivi[4] + " X " + masivi[5] + " = " + mult_3 + " 3");
-        //        console.log(masivi[6] + " X " + masivi[7] + " = " + mult_4 + " 4");
-        //        console.log(masivi[8] + " X " + masivi[9] + " = " + mult_5 + " 5");
-        //        console.log(masivi[10] + " X " + masivi[11] + " = " + mult_6 + " 6");
+            let luwi = index % 2 == 0;
+            let masivis_dasasruli =  masivi[index+1] != undefined;
+
+
+            if ( index == 0 || luwi  && masivis_dasasruli) {
+
+                let samravli = masivi[index];
+                let mamravli = masivi[index+1];
+                let shedegi = samravli * mamravli;
+
+                imagesCalc[0][counter] = shedegi;
+                imagesCalc[1][`${samravli}x${mamravli}`] = shedegi;
+
+                counter++;
+            }
+        });
+        // debugger;
+        console.log(imagesCalc);
 
         // ვამოწმებ უნულობაზე და ვამატებ ნულს
-        var plius_noliani = [mult_1, mult_2, mult_3, mult_4, mult_5, mult_6];
+        var plius_noliani = imagesCalc[0];
         for (var d = 0; d < 6; d++) {
             if (plius_noliani[d] < 10) {
                 plius_noliani[d] = "0" + plius_noliani[d];
-                // console.log("this is it: " + arrImg[d]);
             }
         }
 
         // რანდომად ვარჩევ 6-დან სწორ პასუხს
         var swori = Math.floor(Math.random() * (6 - 0) + 0);
+
         for(let i = 0; i<=5; i++) {
-            row2[i].attr("src", "img/" + plius_noliani[i] + ".jpg").attr('alt', plius_noliani[i]).attr("title", plius_noliani[i]);
+            row2[i]
+                .attr("src", "img/" + plius_noliani[i] + ".jpg")
+                .attr('alt', plius_noliani[i])
+                .attr("title", plius_noliani[i]);
         }
-        // r2_1.attr("src", "img/" + plius_noliani[0] + ".jpg").attr('alt', plius_noliani[0]).attr("title", plius_noliani[0]);
-        // r2_2.attr("src", "img/" + plius_noliani[1] + ".jpg").attr('alt', plius_noliani[1]).attr("title", plius_noliani[1]);
-        // r2_3.attr("src", "img/" + plius_noliani[2] + ".jpg").attr('alt', plius_noliani[2]).attr("title", plius_noliani[2]);
-        // r2_4.attr("src", "img/" + plius_noliani[3] + ".jpg").attr('alt', plius_noliani[3]).attr("title", plius_noliani[3]);
-        // r2_5.attr("src", "img/" + plius_noliani[4] + ".jpg").attr('alt', plius_noliani[4]).attr("title", plius_noliani[4]);
-        // r2_6.attr("src", "img/" + plius_noliani[5] + ".jpg").attr('alt', plius_noliani[5]).attr("title", plius_noliani[5]);
+
         console.log(plius_noliani[swori] + " <= სწორი პასუხია");
 
         // Print სამრავლი X მამრავლი
@@ -117,57 +130,30 @@ function cvl(e) {
             default:
                 $("#gamr").text("am... WTH: " + swori)
         } // switch სამრავლი X მამრავლი
+
         function check(e) {
             //  console.log(plius_noliani[swori] + " swori pasuxi");
             if (e.target.currentSrc.match(plius_noliani[swori])) {
                 $('img').off("click", check);
-                //  console.log(e.target.currentSrc.match(plius_noliani[swori]) + "  true");
-                // console.log(typeof (swori));
+
                 answ.text(plius_noliani[swori]);
-                $(e.target).addClass("good");
-                g++;
-                r3_r.text(g);
+
+                good();
                 setTimeout(function () {
                     gamravleba();
                     answ.text("answer");
                 },200)
-
-
             } else {
-                // console.log(e.target.currentSrc.match(plius_noliani[swori].toString()) + "  false")
-                // console.log(typeof (swori.toString()));
-                $(e.target).addClass("bad");
-                b--;
-                r3_l.text(b);
-
+                bad()
             }
-            //  console.log(e.target.currentSrc)
         } // check (fn)
         $('img').on("click", check);
-
     } // gamravleba (fn)
 
-
-
-
-
-
-
-    // სურათების შეცვლა
-    //    r2_1.attr("src", "img/20.jpg");
-    //    r2_2.attr("src", "img/22.jpg");
-    //    r2_3.attr("src", "img/23.jpg");
-    //    r2_4.attr("src", "img/28.jpg");
-    //    r2_5.attr("src", "img/80.jpg");
-    //    r2_6.attr("src", "img/90.jpg");
-
-    // ტექსტის შეცვლა
-    //    r1_m.text("სამრავლიXმამრავლი");
 
     gamravleba();
 
 
-    console.info("cvladebi inicializirebuli");
 } // cvl (fn)
 
 
