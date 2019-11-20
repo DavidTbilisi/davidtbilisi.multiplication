@@ -27,7 +27,6 @@ function check() {
         },500)
     } else {
         el.style.backgroundColor = "red";
-
     }
 }
 </script>

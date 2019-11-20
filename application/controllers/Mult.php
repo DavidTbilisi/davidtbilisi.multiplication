@@ -67,4 +67,13 @@ class Mult extends CI_Controller {
         return $this->answers;
     }
 
+
+    public function report ($json = null) {
+        $data = $this->db->where("n1 <",11)->from("times_table")->get()->result();
+        if ($json == "json") {
+            json_resp($data);
+        }
+        $this->load->view("incs/head", ["page_title"=>"Report",]);
+        $this->load->view("report", ["data"=>$data,]);
+    }
 }
