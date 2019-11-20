@@ -2,8 +2,69 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Mult extends CI_Controller {
-	public function index()
+
+    public $min;
+    public $max;
+    public $answers = [];
+    public $answers_count = 8;
+    public $namravli;
+    public $samravli;
+    public $mamravli;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->load->helper("david");
+        $this->min = 3;
+        $this->max = 9;
+        $this->samravli = random_int($this->min,$this->max);
+        $this->mamravli = random_int($this->min,$this->max);
+        $this->namravli = $this->samravli*$this->mamravli;
+    }
+
+    public function index()
 	{
-		$this->load->view('welcome_message');
+
+
+        $this->answers = $this->generate_answers($this->namravli);
+
+        $this->load->view("incs/head", ["page_title"=>"გამრავლების ტაბულა",]);
+        $data = [
+            'true'=>[
+                "n1"=>$this->samravli,
+                "n2"=>$this->mamravli,
+                "answer"=>$this->namravli,
+                ],
+            "answers"=>$this->answers
+        ];
+        $this->load->view("default", ["data"=>$data]);
+
+
 	}
+
+
+	function generate_answers () {
+        foreach (range(1, $this->answers_count-1) as $item) {
+
+
+            if ($this->samravli > $this->mamravli) {
+                $min = $this->mamravli;
+                $max = $this->samravli;
+            } else {
+                $min = $this->samravli;
+                $max = $this->mamravli;
+            }
+
+            $samravli = random_int($this->min,$this->max);
+            $mamravli = random_int($this->min,$this->max);
+            $namravli = $samravli*$mamravli;
+
+            $this->answers[] = ['n1'=>$samravli, "n2"=>$mamravli,"namravli"=>$namravli,];
+        }
+        $this->answers[] = ['n1'=>$this->samravli, "n2"=>$this->mamravli,"namravli"=>$this->namravli,];
+        shuffle ($this->answers);
+        return $this->answers;
+    }
+
 }
