@@ -39,6 +39,7 @@ class Mult extends CI_Controller {
             "answers"=>$this->answers
         ];
         $this->load->view("default", ["data"=>$data]);
+        $this->load->view("incs/footer");
 
 
 	}
@@ -71,9 +72,56 @@ class Mult extends CI_Controller {
     public function report ($json = null) {
         $data = $this->db->where("n1 <",11)->from("times_table")->get()->result();
         if ($json == "json") {
-            json_resp($data);
+            json_resp(["data"=>$data]);
         }
         $this->load->view("incs/head", ["page_title"=>"Report",]);
         $this->load->view("report", ["data"=>$data,]);
+        $this->load->view("incs/footer");
     }
+
+
+    public function set_min () {
+
+    }
+    public function set_max() {
+    }
+
+    public function save_answer($ref, $answer = false) {
+        $data = $this->db->where("ref",$ref)->from("times_table")->get()->row();
+        // echo json($data);
+
+
+        if ($data->total < 1) {
+            $data->total = 1;
+        } else {
+            $data->total++;
+        }
+
+
+        if ($answer) {
+
+            if ($data->right < 1) {
+                $data->right = 1;
+            } else {
+                $data->right++;
+            }
+
+            $data = array(
+                'total' => $data->total,
+                'right' => $data->right,
+            );
+        } else {
+            $data = array(
+                'total' => $data->total,
+            );
+        }
+
+
+        $this->db->where('ref', $ref);
+        $this->db->update('times_table', $data);
+
+        $data = $this->db->where("ref",$ref)->from("times_table")->get()->row();
+        json_resp($data);
+    }
+
 }

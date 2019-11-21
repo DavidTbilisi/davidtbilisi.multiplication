@@ -30,5 +30,3 @@ function check() {
     }
 }
 </script>
-</body>
-</html>
