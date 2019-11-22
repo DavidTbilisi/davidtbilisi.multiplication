@@ -31,18 +31,10 @@
 
         <ul class="uk-nav uk-nav-default">
             <li class="uk-active"><a href="<?php echo base_url("/") ?>">HOME</a></li>
-            <li class="uk-parent">
-                <a href="#">Parent</a>
-                <ul class="uk-nav-sub">
-                    <li><a href="#">Sub item</a></li>
-                    <li><a href="#">Sub item</a></li>
-                </ul>
-            </li>
-            <li class="uk-nav-header">Header</li>
             <li><a href="<?php echo base_url("mult/report") ?>"><span class="uk-margin-small-right" uk-icon="icon: table"></span> Report </a></li>
             <li><a href="<?php echo base_url("mult/settings") ?>"><span class="uk-margin-small-right" uk-icon="icon: settings"></span> Settings </a></li>
             <li class="uk-nav-divider"></li>
-            <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: trash"></span> Item</a></li>
+            <li><a href="<?php echo base_url("mult/reset") ?>"><span class="uk-margin-small-right" uk-icon="icon: trash"></span> Reset</a></li>
         </ul>
 
     </div>

@@ -77,7 +77,7 @@ class Mult extends CI_Controller
 
     public function report($json = null)
     {
-        $data = $this->db->where("n1 <", 11)->from("times_table")->get()->result();
+        $data = $this->db->where("n1 <", 11)->where("total >=",1)->from("times_table")->get()->result();
         if ($json == "json") {
             json_resp(["data" => $data]);
         }
@@ -87,14 +87,19 @@ class Mult extends CI_Controller
     }
 
 
-    public function set_min()
+    public function reset()
     {
+        $data = [
+            "total"=>"",
+            "right"=>"",
+            "percent"=>"",
 
+        ];
+        $this->db->update("times_table",$data);
+        return redirect(base_url());
     }
 
-    public function set_max()
-    {
-    }
+
 
     public function save_answer()
     {
@@ -154,11 +159,13 @@ class Mult extends CI_Controller
     public function set_min_max() {
         $data= $this->input->get();
         $this->db->update('settings', $data);
+        return redirect(base_url());
     }
 
     public function settings() {
+        $data = $this->db->get("settings")->row();
         $this->load->view("incs/head", ["page_title" => "Settings",]);
-        $this->load->view('settings');
+        $this->load->view('settings',["data"=>$data]);
         $this->load->view("incs/footer");
     }
 

@@ -5,7 +5,7 @@
         <tr>
             <th>reference</th>
             <th>total</th>
-            <th>right</th>
+            <th>correct</th>
             <th>percent</th>
 
         </tr>
@@ -16,7 +16,7 @@
         <tr>
             <th>reference</th>
             <th>total</th>
-            <th>right</th>
+            <th>correct</th>
             <th>percent</th>
         </tr>
         </tfoot>
