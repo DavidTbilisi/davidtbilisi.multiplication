@@ -1,7 +1,7 @@
 <div class="uk-container">
+<?php $ref = "{$data['true']['n1']}x{$data['true']['n2']}" ?>
 
-
-    <h1 class="uk-heading-large uk-text-center"><?php echo "{$data['true']['n1']}x{$data['true']['n2']}=" ?></h1>
+    <h1 class="uk-heading-large uk-text-center"><?php echo "{$ref}=" ?></h1>
 
 
 <div class="uk-grid-column-small uk-grid-row-large uk-child-width-1-3@s uk-text-center">
@@ -21,12 +21,49 @@
 function check() {
     let el = window.event.target;
     if (el.dataset.checkable == <?php echo $data['true']['answer']?>) {
-        el.style.backgroundColor = "lightgreen";
+        $.ajax({
+           url:"<?php echo base_url('mult/save_answer')?>",
+            method:"POST",
+            data: {
+               "ref": "<?php echo $ref ?>",
+               "answer": 1,
+            },
+            success: function (data) {
+               console.log(data);
+                el.style.backgroundColor = "lightgreen";
+            }
+        });
         setTimeout(function () {
             window.location.reload()
         },500)
+
+
+
     } else {
-        el.style.backgroundColor = "red";
+
+        $.ajax({
+            url:"<?php echo base_url('mult/save_answer')?>",
+            method:"POST",
+            data: {
+                "ref": "<?php echo $ref ?>",
+            },
+            success: function (data) {
+                console.log(data);
+                document.querySelectorAll("button").forEach((el)=>{
+                    if (el.dataset.checkable == <?php echo $data['true']['answer']?>){
+                        el.style.backgroundColor = "lightgreen";
+                    } else {
+                        el.style.backgroundColor = "red";
+                    }
+                });
+
+            }
+        });
+
+
+        setTimeout(function () {
+            window.location.reload()
+        },500)
     }
 }
 </script>
